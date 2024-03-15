@@ -46,4 +46,11 @@ namespace APIBOXCricket.Models
 
         public DateTime Created { get; set; }
     }
+
+    public class MST_SlotRateDetailsModel
+    {
+        public int SlotNO { get; set; }
+        public string? SlotDetails { get; set; }
+        public decimal? HourlyRate { get; set; }
+    }
 }

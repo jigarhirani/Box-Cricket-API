@@ -20,6 +20,19 @@ namespace APIBOXCricket.Models
         public DateTime Modified { get; set; }
     }
 
+    public class MST_User_LoginProfileModel
+    {
+        [Required(ErrorMessage = "Please enter your email address")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [DisplayName("Email Address")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Please Enter the Password")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$",
+            ErrorMessage = "Password should contain at least one lowercase letter, one uppercase letter, one digit, and one special character. Minimum length is 8 characters.")]
+        public string Password { get; set; }
+    }
+
     public class MST_User_ProfileAddModel
     {
         public int? UserID { get; set; }

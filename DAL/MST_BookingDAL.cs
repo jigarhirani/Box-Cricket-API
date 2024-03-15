@@ -42,5 +42,37 @@ namespace APIBOXCricket.DAL
             }
         }
         #endregion
+
+        #region Method: MST_Slot_Rate_Details_ByDate
+        public List<MST_SlotRateDetailsModel> MST_Slot_Rate_Details_ByDate(int GroundID, DateTime BookingDate)
+        {
+            try
+            {
+                //Database Connection
+                SqlDatabase sqlDB = new SqlDatabase(ConnStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Slot_Rate_Details_ByDate");
+                sqlDB.AddInParameter(dbCMD, "@GroundID", SqlDbType.Int, GroundID);
+                sqlDB.AddInParameter(dbCMD, "@BookingDate", SqlDbType.DateTime, BookingDate);
+                List<MST_SlotRateDetailsModel> modelMST_SlotDropdown_List = new List<MST_SlotRateDetailsModel>();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    while (dr.Read())
+                    {
+                        MST_SlotRateDetailsModel model = new MST_SlotRateDetailsModel();
+                        model.SlotNO = Convert.ToInt32(dr["SlotNO"]);
+                        model.SlotDetails = dr["SlotDetails"].ToString();
+                        model.HourlyRate = Convert.ToDecimal(dr["HourlyRate"]);
+                        modelMST_SlotDropdown_List.Add(model);
+                    }
+                }
+                return modelMST_SlotDropdown_List;
+            }
+            catch (Exception)
+            {
+                return null;
+
+            }
+        }
+        #endregion
     }
 }

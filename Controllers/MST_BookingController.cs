@@ -60,5 +60,31 @@ namespace APIUserID.Controllers
 
         }
         #endregion
+
+        #region Get Aviailable Slots With Rate By GroundID and BookingDate
+        [HttpGet]
+        public IActionResult GetAvailableSlotsWithRate(int GroundID, DateTime BookingDate)
+        {
+            MST_BookingBAL balMST_BookingBAL = new MST_BookingBAL();
+            List<MST_SlotRateDetailsModel> modelMST_SlotDropDown = balMST_BookingBAL.MST_Slot_Rate_Details_ByDate(GroundID, BookingDate);
+
+            // Make the response in key value pair
+            Dictionary<string, dynamic> response = new Dictionary<string, dynamic>();
+            if (modelMST_SlotDropDown != null && modelMST_SlotDropDown.Count > 0)
+            {
+                response.Add("status", true);
+                response.Add("Message", "Data Found.");
+                response.Add("data", modelMST_SlotDropDown);
+                return Ok(response);
+            }
+            else
+            {
+                response.Add("status", false);
+                response.Add("Message", "Data Not Found.");
+                response.Add("data", null);
+                return NotFound(response);
+            }
+        }
+        #endregion
     }
 }

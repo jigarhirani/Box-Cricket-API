@@ -9,6 +9,32 @@ namespace APIBOXCricket.Controllers
 
     public class MST_UserController : Controller
     {
+        #region Post UserLogin (Login User)
+        [HttpPost]
+        public IActionResult PostLoginUser([FromForm] MST_User_LoginProfileModel modeMST_User_LoginProfile)
+        {
+            MST_UserBAL bal = new MST_UserBAL();
+            bool IsSuccess = bal.MST_User_Select_ByEmailPassword(modeMST_User_LoginProfile);
+
+            // Make the response in key value pair
+            Dictionary<string, dynamic> response = new Dictionary<string, dynamic>();
+            if (IsSuccess)
+            {
+                response.Add("status", true);
+                response.Add("Message", "Data Inserted Successfully.");
+                response.Add("data", IsSuccess);
+                return Ok(response);
+            }
+            else
+            {
+                response.Add("status", false);
+                response.Add("Message", "Some Error has an occured.");
+                response.Add("data", null);
+                return NotFound(response);
+            }
+        }
+        #endregion
+
         #region Post User (SignUp User)
         [HttpPost]
         public IActionResult PostSignUpUser([FromForm] MST_User_ProfileAddModel modelMST_User_ProfileAdd)
@@ -112,6 +138,5 @@ namespace APIBOXCricket.Controllers
             }
         }
         #endregion
-
     }
 }
